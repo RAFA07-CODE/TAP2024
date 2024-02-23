@@ -1,0 +1,46 @@
+.root{
+    -fx-background-image: url('https://i.pinimg.com/originals/0c/64/9a/0c649a17ec1e5f5ca340248b4ef4e4be.gif') ,url('https://i.pinimg.com/564x/89/4f/15/894f156accbcbff8a5a406a1ba504bb8.jpg');
+    -fx-background-size: 100% , 20%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center, bottom left ;
+}
+
+.menu-bar{
+    -fx-background-color: #263e26;
+    -fx-border-color: #ffff;
+    -fx-border-width: 3px;
+}
+
+.menu{
+    --block-text-color: #ffffff;
+    -fx-background-color: #545454;
+    -fx-border-color: #ffff;
+    -fx-border-width: 3px;
+}
+
+.label{
+    --block-text-color: #ffff;
+    -fx-padding: 10;
+}
+
+.menu:hover{
+    -fx-background-color: #f8f3f3;
+}
+
+.label:hover{
+    -fx-background-color: black;
+    -fx-font-size: 20px;
+}
+
+.menu-item{
+    -fx-background-color: #4E9A1B;
+    -fx-border-color: #000;
+}
+
+.menu-item:hover{
+    -fx-background-color: #000;
+}
+
+.menu-item label{
+    -fx-text-fill: black;
+}

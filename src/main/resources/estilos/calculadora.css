@@ -1,0 +1,16 @@
+#color-operador{
+    -fx-background-color: red;
+    -fx-border-radius: 5px;
+    -fx-border-color: #fff;
+}
+
+#color-numeros{
+    -fx-background-color: #7b7777;
+    -fx-border-radius: 5px;
+    -fx-border-color: #fff;
+}
+#color-signos{
+    -fx-background-color: #91bc71;
+    -fx-border-radius: 5px;
+    -fx-border-color: #fff;
+}
