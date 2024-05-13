@@ -1,0 +1,48 @@
+.root{
+    -fx-background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExb3RpOGY1N2VmOHhjM20xcnB3anY3cnhjcWhwYWg4ZGdwZXJzZHR6NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/rEpJBMz0NR8fm/giphy.gif') ,url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWI0Y3kweTJieTl4cXU0ZTJ2dmRwdHUwaWtjNWVwdDZrdXNnaW0wZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3ohs7YMlUQ6Jk8w0rS/giphy.gif');
+    -fx-background-size: 100% , 20%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center, bottom left ;
+}
+
+.menu-bar{
+    -fx-background-color: #263e26;
+    -fx-border-color: #ffff;
+    -fx-border-width: 3px;
+}
+
+.menu{
+    --block-text-color: #ffffff;
+    -fx-background-color: #545454;
+    -fx-border-color: #ffff;
+    -fx-border-width: 3px;
+}
+
+.label{
+    --block-text-color: #ffff;
+    -fx-padding: 10;
+}
+
+.menu:hover{
+    -fx-background-color: #f8f3f3;
+}
+
+.label:hover{
+    -fx-background-color: black;
+    -fx-font-size: 20px;
+}
+
+.menu-item{
+    -fx-background-color: #4E9A1B;
+    -fx-border-color: #000;
+}
+
+.menu-item:hover{
+    -fx-background-color: #000;
+}
+
+.menu-item label{
+    -fx-text-fill: black;
+}
+
+

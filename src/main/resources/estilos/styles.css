@@ -1,0 +1,191 @@
+.root {
+    -fx-background-color: #f2fde2; /* Color de fondo */
+}
+
+
+.boton-estilo {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+    -fx-background-insets: 0;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.9), 5, 0, 0, 1);
+}
+
+.boton-estilo:hover {
+    -fx-background-color: #172f17;
+}
+
+
+.botones-grupo2 {
+    -fx-padding: 10px 5px 10px 5px; /* Padding: arriba, derecha, abajo, izquierda */
+    -fx-margin: 0px 0px 0px 0px; /* Margin: arriba, derecha, abajo, izquierda */
+    -fx-background-color: #FF5722;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-border-radius: 5px;
+    -fx-background-insets: 0;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.9), 5, 0, 0, 1);
+}
+
+.botones-grupo2:hover {
+    -fx-background-color: #4b1606;
+}
+
+.categorias {
+    -fx-font-family: "Nunito Light", sans-serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333; /* Color del texto */
+    -fx-padding: 5px 20px; /* Padding interno (arriba/abajo, izquierda/derecha) */
+    -fx-background-color: #f0f0f0; /* Color de fondo */
+    -fx-background-radius: 5px; /* Bordes redondeados */
+    -fx-border-color: #cccccc; /* Color del borde */
+    -fx-border-width: 1px; /* Ancho del borde */
+    -fx-border-radius: 5px; /* Redondear esquinas del borde */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 1), 5, 0, 0, 1);
+    -fx-margin: 0px 0px 10px 0px; /* Margin: arriba, derecha, abajo, izquierda */
+}
+
+.cat {
+}
+
+.Centro{
+    -fx-padding: 0px 0px 0px 0px; /* Padding: arriba, derecha, abajo, izquierda */
+    -fx-margin: 0px 0px 0px 0px; /* Margin: arriba, derecha, abajo, izquierda */
+}
+
+.Menu {
+    -fx-padding: 10px 50px 10px 50px;
+}
+
+.boton-adicionales{
+    -fx-padding: 0px 0px 0px 0px; /* Padding: arriba, derecha, abajo, izquierda */
+    -fx-margin: 0px 0px 0px 0px; /* Margin: arriba, derecha, abajo, izquierda */
+}
+
+.registro{
+    -fx-padding: 0px 0px 0px 0px; /* Padding: arriba, derecha, abajo, izquierda */
+    -fx-margin: 0px 0px 0px 0px; /* Margin: arriba, derecha, abajo, izquierda */
+}
+
+.boton-mesa {
+    -fx-background-color: #d98a1d; /* Color de fondo */
+    -fx-text-fill: white; /* Color del texto */
+    -fx-padding: 10px; /* Espaciado interno */
+    -fx-font-size: 14px; /* Tamaño de fuente */
+    -fx-pref-width: 100px; /* Ancho preferido */
+    -fx-pref-height: 50px; /* Altura preferida */
+    -fx-border-radius: 9px;
+    -fx-background-insets: 0;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.9), 5, 0, 0, 1);
+}
+
+.boton-mesa:hover{
+    -fx-background-color: #5e3c0a; /* Color de fondo */
+    -fx-text-fill: white; /* Color del texto */
+}
+
+.cobrar{
+    -fx-background-color: #343434; /* Color de fondo */
+    -fx-text-fill: white; /* Color del texto */
+    -fx-padding: 10px; /* Espaciado interno */
+    -fx-font-size: 14px; /* Tamaño de fuente */
+    -fx-pref-width: 100px; /* Ancho preferido */
+    -fx-pref-height: 50px; /* Altura preferida */
+    -fx-border-radius: 9px;
+    -fx-background-insets: 0;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.9), 5, 0, 0, 1);
+}
+
+.cobrar:hover{
+    -fx-background-color: #000000; /* Color de fondo */
+    -fx-text-fill: white; /* Color del texto */
+}
+
+.guardar{
+    -fx-background-color: #b1fa34; /* Color de fondo */
+    -fx-text-fill: white; /* Color del texto */
+    -fx-padding: 10px; /* Espaciado interno */
+    -fx-font-size: 14px; /* Tamaño de fuente */
+    -fx-pref-width: 100px; /* Ancho preferido */
+    -fx-pref-height: 50px; /* Altura preferida */
+    -fx-border-radius: 9px;
+    -fx-background-insets: 0;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.9), 5, 0, 0, 1);
+}
+
+.guardar:hover{
+    -fx-background-color: #334810; /* Color de fondo */
+    -fx-text-fill: white; /* Color del texto */
+}
+
+.borrar{
+    -fx-background-color: #ea2727; /* Color de fondo */
+    -fx-text-fill: white; /* Color del texto */
+    -fx-padding: 10px; /* Espaciado interno */
+    -fx-font-size: 14px; /* Tamaño de fuente */
+    -fx-pref-width: 100px; /* Ancho preferido */
+    -fx-pref-height: 50px; /* Altura preferida */
+    -fx-border-radius: 9px;
+    -fx-background-insets: 0;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.9), 5, 0, 0, 1);
+
+}
+
+.borrar:hover{
+    -fx-background-color: #460c0c; /* Color de fondo */
+    -fx-text-fill: white; /* Color del texto */
+}
+
+.crud{
+    -fx-padding: 10px 50px 10px 50px;
+}
+
+.mas{
+    -fx-background-color: #b1fa34; /* Color de fondo */
+    -fx-text-fill: white; /* Color del texto */
+    -fx-padding: 10px; /* Espaciado interno */
+    -fx-font-size: 14px; /* Tamaño de fuente */
+    -fx-pref-width: 50px; /* Ancho preferido */
+    -fx-pref-height: 25px; /* Altura preferida */
+    -fx-border-radius: 9px;
+    -fx-background-insets: 0;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.9), 5, 0, 0, 1);
+}
+
+.mas:hover{
+    -fx-background-color: #334810; /* Color de fondo */
+    -fx-text-fill: white; /* Color del texto */
+    -fx-pref-width: 55px; /* Ancho preferido */
+    -fx-pref-height: 40px; /* Altura preferida */
+}
+
+.menos{
+    -fx-background-color: #ea2727; /* Color de fondo */
+    -fx-text-fill: white; /* Color del texto */
+    -fx-padding: 10px; /* Espaciado interno */
+    -fx-font-size: 14px; /* Tamaño de fuente */
+    -fx-pref-width: 50px; /* Ancho preferido */
+    -fx-pref-height: 25px; /* Altura preferida */
+    -fx-border-radius: 9px;
+    -fx-background-insets: 0;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.9), 5, 0, 0, 1);
+
+}
+
+.menos:hover{
+    -fx-background-color: #460c0c; /* Color de fondo */
+    -fx-text-fill: white; /* Color del texto */
+    -fx-pref-width: 55px; /* Ancho preferido */
+    -fx-pref-height: 40px; /* Altura preferida */
+}

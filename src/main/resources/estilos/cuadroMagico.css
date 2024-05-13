@@ -1,0 +1,28 @@
+.root {
+    -fx-background-color: #cecec4; /* Color de fondo para toda la ventana */
+}
+
+.btn-generar {
+    -fx-background-color: #f33221;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.btn-generar:hover {
+    -fx-background-color: #df4242;
+}
+
+.text-ingresar {
+    -fx-end-margin: 10px 10px 10px 10px;
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-border-width: 0 0 1 0;
+}
+
+.btn-cuadro {
+    -fx-background-color: #ef3838;
+}
+
+.btn-cuadro:hover {
+    -fx-background-color: #dc3333;
+}

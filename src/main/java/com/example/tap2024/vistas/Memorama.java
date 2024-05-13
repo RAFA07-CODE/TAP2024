@@ -1,87 +1,215 @@
 package com.example.tap2024.vistas;
 
-import javafx.scene.ImageCursor;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Memorama extends Stage {
 
-    private Scene escena;
-    private Label lblPares, lblJugador1, lblJugador2, lblTiempo, lblScore1, lblScore2;
-    private TextField txtPares;
-    private GridPane gdpJuego;
-    private Button btnJugar;
-    private VBox vbxPrincipal, vbxJugadores;
-    private HBox hbxTiempo, hbxJuego, hbxJugador1, hbxJugador2;
+    private final int cardWidth = 100;
+    private final int cardHeight = 150;
+    private final String coverImagePath = "/images/cover.png";
+    private final int maxPairs = 15;
+    private final int turnTimeLimitSeconds = 30;
 
-    public Memorama(){
-        CrearUI();
-        this.setTitle("Memorama :)");
-        this.setScene(escena);
+    private GridPane grid;
+    private ArrayList<ImageView> cards;
+    private Set<ImageView> matchedCards;
+    private int pairsFound;
+    private int currentPlayer;
+    private int[] playerPairsFound;
+    private PauseTransition turnTimeout;
+    private ImageView selectedCard;
+
+    private Label player1ScoreLabel;
+    private Label player2ScoreLabel;
+    private Label turnLabel;
+
+    public Memorama() {
+        createUI();
+        this.setTitle("Memorama");
         this.show();
     }
 
-    private void CrearUI() {
+    private void createUI() {
+        BorderPane root = new BorderPane();
+        Scene scene = new Scene(root, 900, 750);
+        this.setScene(scene);
 
-        lblPares = new Label("Número de Pares:");
-        btnJugar = new Button("Inicar Juego");
-        lblTiempo = new Label("00:00");
-        hbxTiempo = new HBox(lblPares, btnJugar, lblTiempo);
+        grid = new GridPane();
+        root.setCenter(grid);
 
-        lblJugador1 = new Label("Jugador 1");
-        lblScore1 = new Label("0");
-        hbxJugador1 = new HBox(lblJugador1, lblScore1);
+        Label pairsLabel = new Label("Número de pares");
+        TextField pairsInput = new TextField();
+        pairsInput.setPromptText("Ingrese número de pares (entre 3 y " + maxPairs + ")");
 
-        lblJugador2 = new Label("Jugador 2");
-        lblScore2 = new Label("0");
-        hbxJugador2 = new HBox(lblJugador2, lblScore2);
+        Button startButton = new Button("Comenzar Juego");
+        startButton.setOnAction(event -> {
+            String pairsText = pairsInput.getText();
+            int pairs;
+            try {
+                pairs = Integer.parseInt(pairsText);
+                if (pairs >= 3 && pairs <= maxPairs) {
+                    initializeGame(pairs);
+                } else {
+                    showAlert("El número de pares debe estar entre 3 y " + maxPairs);
+                }
+            } catch (NumberFormatException e) {
+                showAlert("Por favor, ingrese un número válido.");
+            }
+        });
 
-        vbxJugadores = new VBox(hbxJugador1, hbxJugador2);
-        gdpJuego = new GridPane();
-        RevolverCartas();
-        hbxJuego = new HBox(gdpJuego,vbxJugadores);
+        BorderPane inputPane = new BorderPane();
+        inputPane.setLeft(pairsLabel);
+        inputPane.setCenter(pairsInput);
+        inputPane.setRight(startButton);
+        root.setTop(inputPane);
 
-        vbxPrincipal = new VBox(hbxTiempo, hbxJuego);
+        player1ScoreLabel = new Label("Jugador 1: 0 Pares");
+        player2ScoreLabel = new Label("Jugador 2: 0 Pares");
+        turnLabel = new Label("Turno del Jugador 1");
 
-        escena = new Scene(vbxPrincipal, 400, 300);
+        BorderPane statusPane = new BorderPane();
+        statusPane.setLeft(player1ScoreLabel);
+        statusPane.setCenter(turnLabel);
+        statusPane.setRight(player2ScoreLabel);
+        root.setBottom(statusPane);
     }
 
-    private void RevolverCartas() {
+    private void initializeGame(int pairs) {
+        grid.getChildren().clear();
+        cards = new ArrayList<>();
+        matchedCards = new HashSet<>();
+        pairsFound = 0;
+        currentPlayer = 1;
+        playerPairsFound = new int[2];
+        selectedCard = null;
 
-        String[] arImagenes = {"fantasma.png","hongo.png","mario-bros.png","personajes.png"};
-        Button[][] arBtnCartas = new Button[2][4];
+        ArrayList<Integer> imageIndices = new ArrayList<>();
+        for (int i = 0; i < pairs; i++) {
+            imageIndices.add(i);
+            imageIndices.add(i);
+        }
+        Collections.shuffle(imageIndices);
 
-        ImageView imvCarta;
-        int posx = 0;
-        int posy = 0;
-        int cont = 0;
-        for (int i = 0; i < arImagenes.length ; ) {
-            posx = (int)(Math.random()*2);
-            posy = (int)(Math.random()*4);
-            if( arBtnCartas[posx][posy] == null ){
-                arBtnCartas[posx][posy] = new Button();
-                imvCarta = new ImageView(
-                        getClass().getResource("/images/"+arImagenes[i]).toString()
-                );
-                imvCarta.setFitHeight(150);
-                imvCarta.setFitWidth(100);
-                arBtnCartas[posx][posy].setGraphic(imvCarta);
-                arBtnCartas[posx][posy].setPrefSize(100,150);
-                gdpJuego.add(arBtnCartas[posx][posy],posy,posx);
-                cont++;
-                if( cont == 2 ) {
-                    i++;
-                    cont = 0;
-                }
+        int numRows = (pairs * 2) / 4;
+        int numCols = (pairs * 2) / numRows;
+
+        for (int i = 0; i < numRows * numCols; i++) {
+            Image coverImage = new Image(getClass().getResourceAsStream(coverImagePath));
+            ImageView card = createCard(coverImage, imageIndices.get(i));
+            cards.add(card);
+        }
+
+        Collections.shuffle(cards);
+
+        int index = 0;
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                grid.add(cards.get(index), col, row);
+                index++;
             }
         }
+
+        startNextTurn();
+    }
+
+    private ImageView createCard(Image image, int imageIndex) {
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(cardWidth);
+        imageView.setFitHeight(cardHeight);
+        imageView.setOnMouseClicked(event -> {
+            if (!matchedCards.contains(imageView) && imageView.getImage().getUrl().equals(coverImagePath)) {
+                handleCardClick(imageView, imageIndex);
+            }
+        });
+        return imageView;
+    }
+
+    private void handleCardClick(ImageView card, int imageIndex) {
+        if (turnTimeout != null) {
+            turnTimeout.stop();
+        }
+
+        if (selectedCard == null) {
+            selectedCard = card;
+            flipCard(selectedCard, imageIndex);
+        } else if (selectedCard != card) {
+            flipCard(card, imageIndex);
+            checkForMatch(selectedCard, card);
+        }
+    }
+
+    private void flipCard(ImageView card, int imageIndex) {
+        Image image = new Image(getClass().getResourceAsStream("/images/" + (imageIndex + 1) + ".png"));
+        card.setImage(image);
+    }
+
+    private void checkForMatch(ImageView card1, ImageView card2) {
+        if (card1.getImage().getUrl().equals(card2.getImage().getUrl())) {
+            matchedCards.add(card1);
+            matchedCards.add(card2);
+
+            pairsFound++;
+            playerPairsFound[currentPlayer - 1]++;
+
+            if (pairsFound == cards.size() / 2) {
+                String winner = (playerPairsFound[0] > playerPairsFound[1]) ? "Jugador 1" : "Jugador 2";
+                showAlert("¡Has encontrado todas las parejas!\n" + winner + " ha ganado.");
+            }
+        } else {
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            pause.setOnFinished(event -> {
+                card1.setImage(new Image(getClass().getResourceAsStream(coverImagePath)));
+                card2.setImage(new Image(getClass().getResourceAsStream(coverImagePath)));
+                currentPlayer = (currentPlayer == 1) ? 2 : 1;
+                updateTurnLabel();
+            });
+            pause.play();
+        }
+
+        selectedCard = null;
+        startNextTurn();
+    }
+
+    private void startNextTurn() {
+        turnTimeout = new PauseTransition(Duration.seconds(turnTimeLimitSeconds));
+        turnTimeout.setOnFinished(event -> {
+            showAlert("¡Se acabó el tiempo! Turno del Jugador " + (currentPlayer == 1 ? 2 : 1));
+            currentPlayer = currentPlayer == 1 ? 2 : 1;
+            updateTurnLabel();
+        });
+        turnTimeout.play();
+    }
+
+    private void updateTurnLabel() {
+        turnLabel.setText("Turno del Jugador " + currentPlayer);
+        player1ScoreLabel.setText("Jugador 1: " + playerPairsFound[0] + " Pares");
+        player2ScoreLabel.setText("Jugador 2: " + playerPairsFound[1] + " Pares");
+    }
+
+    private void showAlert(String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Aviso");
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.show();
+        });
     }
 }

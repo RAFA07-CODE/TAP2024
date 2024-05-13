@@ -12,7 +12,6 @@ import javafx.util.Duration;
 
 public class Calculadora extends Stage {
     private TextField txtPantalla;
-    private Button[][] arBotones = new Button[4][4];
     private char[] arSignos = {'7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', '.', '=', '+'};
     private double numero1 = 0;
     private char operador = ' ';
@@ -59,31 +58,7 @@ public class Calculadora extends Stage {
                 Button btn = new Button(String.valueOf(arSignos[pos]));
                 btn.setPrefSize(50, 50);
                 int finalPos = pos;
-                btn.setOnAction(event -> {
-                    char signo = arSignos[finalPos];
-                    if (Character.isDigit(signo) || signo == '.') {
-                        if (ultimoSigno || esperandoSegundoNumero) {
-                            txtPantalla.setText("");
-                            ultimoSigno = false;
-                            esperandoSegundoNumero = false;
-                        }
-                        if (txtPantalla.getText().equals("0")) {
-                            txtPantalla.setText("");
-                        }
-                        txtPantalla.appendText(String.valueOf(signo));
-                    } else if (signo == '=') {
-                        if (operador == ' ' || esperandoSegundoNumero) return;
-                        calcular();
-                    } else {
-                        if (!ultimoSigno) {
-                            operador = signo;
-                            ultimoSigno = true;
-                            numero1 = Double.parseDouble(txtPantalla.getText());
-                            esperandoSegundoNumero = true;
-                        }
-                    }
-                });
-
+                btn.setOnAction(event -> botonPresionado(arSignos[finalPos]));
                 if (arSignos[pos] == '+' || arSignos[pos] == '-' || arSignos[pos] == '*' || arSignos[pos] == '/')
                     btn.setId("color-operador");
                 if (arSignos[pos] == '1' || arSignos[pos] == '2' || arSignos[pos] == '3' || arSignos[pos] == '4' || arSignos[pos] == '5' || arSignos[pos] == '6' || arSignos[pos] == '7' || arSignos[pos] == '8' || arSignos[pos] == '9' || arSignos[pos] == '0')
@@ -91,9 +66,47 @@ public class Calculadora extends Stage {
                 if (arSignos[pos] == '.' || arSignos[pos] == '=')
                     btn.setId("color-signos");
 
-                arBotones[i][j] = btn;
                 gdpTeclado.add(btn, j, i);
                 pos++;
+            }
+        }
+    }
+
+    private void botonPresionado(char signo) {
+        if (signo == '.') {
+            if (!txtPantalla.getText().contains(".")) {
+                txtPantalla.appendText(".");
+            }
+            return;
+        }
+
+        if (txtPantalla.getText().equals("Syntax Error")) {
+            return;
+        }
+
+        if (Character.isDigit(signo)) {
+            if (ultimoSigno || esperandoSegundoNumero) {
+                txtPantalla.setText("");
+                ultimoSigno = false;
+                esperandoSegundoNumero = false;
+            }
+            if (txtPantalla.getText().equals("0")) {
+                txtPantalla.setText("");
+            }
+            txtPantalla.appendText(String.valueOf(signo));
+        } else if (signo == '=') {
+            if (operador == ' ' || esperandoSegundoNumero) return;
+            calcular();
+        } else {
+            if (!ultimoSigno) {
+                operador = signo;
+                ultimoSigno = true;
+                if (!esNumeroValido(txtPantalla.getText())) {
+                    mostrarSyntaxError();
+                    return;
+                }
+                numero1 = Double.parseDouble(txtPantalla.getText());
+                esperandoSegundoNumero = true;
             }
         }
     }
@@ -103,31 +116,20 @@ public class Calculadora extends Stage {
         if (textoPantalla.equals("Syntax Error")) {
             return;
         }
+
         if (operador == '/' && textoPantalla.equals(".")) {
-            txtPantalla.setText("Syntax Error");
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
-                txtPantalla.setText("0");
-                operador = ' ';
-                numero1 = 0;
-                ultimoSigno = false;
-                esperandoSegundoNumero = false;
-            }));
-            timeline.play();
+            mostrarSyntaxError();
             return;
         }
-        double numero2 = Double.parseDouble(textoPantalla);
-        if (operador == '/' && numero2 == 0) {
-            txtPantalla.setText("Syntax Error");
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
-                txtPantalla.setText("0");
-                operador = ' ';
-                numero1 = 0;
-                ultimoSigno = false;
-                esperandoSegundoNumero = false;
-            }));
-            timeline.play();
+
+        double numero2;
+        if (!esNumeroValido(textoPantalla)) {
+            mostrarSyntaxError();
             return;
+        } else {
+            numero2 = Double.parseDouble(textoPantalla);
         }
+
         double resultado = 0;
         switch (operador) {
             case '+':
@@ -140,6 +142,10 @@ public class Calculadora extends Stage {
                 resultado = numero1 * numero2;
                 break;
             case '/':
+                if (numero2 == 0) {
+                    mostrarSyntaxError();
+                    return;
+                }
                 resultado = numero1 / numero2;
                 break;
         }
@@ -149,4 +155,40 @@ public class Calculadora extends Stage {
         ultimoSigno = true;
         esperandoSegundoNumero = true;
     }
+
+    private void mostrarSyntaxError() {
+        txtPantalla.setText("Syntax Error");
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+            txtPantalla.setText("0");
+            operador = ' ';
+            numero1 = 0;
+            ultimoSigno = false;
+            esperandoSegundoNumero = false;
+        }));
+        timeline.play();
+    }
+
+    private boolean esNumeroValido(String texto) {
+        if (texto.isEmpty()) {
+            return false;
+        }
+        if (texto.equals(".")) {
+            return true;
+        }
+        boolean puntoEncontrado = false;
+        for (char c : texto.toCharArray()) {
+            if (c == '.') {
+                if (puntoEncontrado) {
+                    return false;
+                } else {
+                    puntoEncontrado = true;
+                }
+            } else if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 }
